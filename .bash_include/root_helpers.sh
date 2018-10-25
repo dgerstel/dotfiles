@@ -17,7 +17,7 @@ tbrowser () {
 
 # grep ntuple branches
 tgrep () {
-    if [ $# -ne 2 ] && [ $# -ne 3 ] && [ $# -ne 4 ]; then
+    if [ $# -lt 2 ] || [ $# -gt 5 ]; then
         echo "Usage: $ tgrep -k=<keyword> -t=<path/to/tuple> -d=<tree_directory> [-a=<grep_argument>]"
         return 1;
     fi
@@ -49,18 +49,21 @@ tgrep () {
             -a=*|--greparg=*)
                 GREP_ARG="${i#*=}"
                 ;;
+            "-v" )
+                VERBOSE=true
+                ;;
             *)
                 #unknown option
                 ;;
         esac
     done
-    echo TUPLE = ${TUPLE}
-    echo TUPLEDIR = ${TUPLEDIR}
-    echo KEYWORD = ${KEYWORD}
+    if [ -n "$VERBOSE" ]; then
+	echo TUPLE = ${TUPLE}
+	echo TUPLEDIR = ${TUPLEDIR}
+	echo KEYWORD = ${KEYWORD}
+	echo 't=(TTree*)'"${TUPLEDIR}"'->Get("DecayTree"); t->Show()'
+    fi
     # Use grep
-    echo 't=(TTree*)'"${TUPLEDIR}"'->Get("DecayTree"); t->Show()'
-#    echo 't=(TTree*)Bd2DsttaunuTuple->Get("DecayTree"); t->Show()' | root -l $TUPLE
-#    echo 't=(TTree*)'"${TUPLEDIR}"'->Get("DecayTree"); t->Show()' | root -l $TUPLE | tee >(wc -l) >(echo) | grep $KEYWORD $GREP_ARG
     echo 't=(TTree*)'"${TUPLEDIR}"'->Get("DecayTree"); t->Show()' | root -l -b $TUPLE | grep $KEYWORD $GREP_ARG
 }
 
