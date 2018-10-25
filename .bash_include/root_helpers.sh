@@ -1,4 +1,4 @@
->## TBrowser
+# TBrowser
 tbrowser () {
   # Check a file has been specified
   if (( $# == 0 )); then
