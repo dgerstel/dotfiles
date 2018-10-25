@@ -61,7 +61,7 @@ tgrep () {
     echo 't=(TTree*)'"${TUPLEDIR}"'->Get("DecayTree"); t->Show()'
 #    echo 't=(TTree*)Bd2DsttaunuTuple->Get("DecayTree"); t->Show()' | root -l $TUPLE
 #    echo 't=(TTree*)'"${TUPLEDIR}"'->Get("DecayTree"); t->Show()' | root -l $TUPLE | tee >(wc -l) >(echo) | grep $KEYWORD $GREP_ARG
-    echo 't=(TTree*)'"${TUPLEDIR}"'->Get("DecayTree"); t->Show()' | root -l $TUPLE | grep $KEYWORD $GREP_ARG
+    echo 't=(TTree*)'"${TUPLEDIR}"'->Get("DecayTree"); t->Show()' | root -l -b $TUPLE | grep $KEYWORD $GREP_ARG
 }
 
 
